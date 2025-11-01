@@ -1,14 +1,12 @@
 package ar.edu.unju.escmi.tp7.dominio;
 
 public class Producto {
-
-	private long codigo;
+    private long codigo;
     private String descripcion;
     private double precioUnitario;
     private String origenFabricacion;
 
     public Producto() {
-
     }
 
     public Producto(long codigo, String descripcion, double precioUnitario, String origenFabricacion) {
@@ -48,11 +46,5 @@ public class Producto {
 
     public void setOrigenFabricacion(String origenFabricacion) {
         this.origenFabricacion = origenFabricacion;
-    }
-
-    @Override
-    public String toString() {
-        return "Codigo: " + codigo + " Descripcion: " + descripcion + " Precio Unitario: " + precioUnitario
-                + " Origen fabricacion: " + origenFabricacion;
     }
 }
