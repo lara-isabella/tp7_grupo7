@@ -64,6 +64,7 @@ public class Factura {
         return total;
     }
 
+
     @Override
     public String toString() {
         return  "\n\n******************** Factura ********************"

@@ -3,28 +3,22 @@ package ar.edu.unju.escmi.tp7.dominio;
 import java.time.LocalDate;
 
 public class TarjetaCredito {
+    private long numero;
+    private LocalDate fechaCaducacion;
+    private Cliente cliente;
+    private double limiteCompra;
 
-	 private long numero;
-	 private LocalDate fechaCaducacion;
-	 private Cliente cliente;
-	 private double limiteCompra;
-
-	 public TarjetaCredito() {
-     }
-
-    
+    public TarjetaCredito() {
+    }
 
     public TarjetaCredito(long numero, LocalDate fechaCaducacion, Cliente cliente, double limiteCompra) {
-		super();
-		this.numero = numero;
-		this.fechaCaducacion = fechaCaducacion;
-		this.cliente = cliente;
-		this.limiteCompra = limiteCompra;
-	}
+        this.numero = numero;
+        this.fechaCaducacion = fechaCaducacion;
+        this.cliente = cliente;
+        this.limiteCompra = limiteCompra;
+    }
 
-
-
-	public long getNumero() {
+    public long getNumero() {
         return numero;
     }
 
@@ -37,26 +31,22 @@ public class TarjetaCredito {
     }
 
     public void setFechaCaducacion(LocalDate fechaCaducacion) {
-	       this.fechaCaducacion = fechaCaducacion;
-	}
+        this.fechaCaducacion = fechaCaducacion;
+    }
 
-	public Cliente getCliente() {
-		return cliente;
-	}
+    public Cliente getCliente() {
+        return cliente;
+    }
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
-	public void setLimiteCompra(double limiteCompra) {
-		this.limiteCompra = limiteCompra;
-	}
+    public double getLimiteCompra() {
+        return limiteCompra;
+    }
 
-	
-	@Override
-	public String toString() {
-		return "\nNumero: " + numero + " Fecha De Caducacion: " + fechaCaducacion + "\nNombre Titular: "
-				+ cliente.getNombre() + ", Limite De Compra Actual:" + limiteCompra;
-	}
-
+    public void setLimiteCompra(double limiteCompra) {
+        this.limiteCompra = limiteCompra;
+    }
 }
