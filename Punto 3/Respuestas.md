@@ -25,8 +25,7 @@ La clase `Factura` tiene **cuatro atributos**:
 
 ### **c)** ¿Cómo se llama la relación que se establece entre `Factura` y `Detalle`?
 
-La relación entre las clases `Factura` y `Detalle` se llama **composición**,  
-ya que una factura **contiene** varios detalles, y los mismos **no existen sin** la factura.
+La relación entre las clases `Factura` y `Detalle` se llama composición, que sucede cuando una clase contiene objetos de otra clase.
 
 ---
 
@@ -39,8 +38,7 @@ porque la clase `Factura` posee un atributo de tipo `Cliente`.
 
 ### **e)** ¿Por qué los atributos de las clases *Collections* son públicos?
 
-Los atributos de las clases *Collections* son **públicos** por una cuestión de **facilidad de acceso directo** desde otras clases,  
-ya que estas clases actúan como contenedores o estructuras de almacenamiento compartido.
+Los atributos de las clases `Collections` son públicos por una cuestión de facilidad de acceso directo desde otras clases.
 
 ---
 
@@ -50,23 +48,23 @@ La clase `CollectionClientes` tiene los siguientes métodos:
 
 ---
 
-#### 🔹 `agregarCliente(Cliente cliente)`
-- **Visibilidad:** Pública (+)  
+#### `1. agregarCliente(Cliente cliente)`
+- **Visibilidad:** Público (+), es decir que cualquier otra clase puede usarla.
 - **Parámetro:** `cliente` de tipo `Cliente`  
 - **Función:** Agrega un objeto `Cliente` a la colección de clientes.  
 - **Retorno:** Ninguno  
 
 ---
 
-#### `buscarCliente(long dni)`
+#### `2. buscarCliente(long dni)`
 - **Visibilidad:** Pública (+)  
-- **Parámetro:** `dni` de tipo `long`  
+- **Parámetro:** `dni` de tipo `long`, usado para buscar al cliente.  
 - **Función:** Busca un cliente dentro de la colección cuyo DNI coincida con el dado.  
 - **Retorno:** Objeto `Cliente` si se encuentra  
 
 ---
 
-#### `precargarClientes()`
+#### `3. precargarClientes()`
 - **Visibilidad:** Pública (+)  
 - **Parámetros:** Ninguno  
 - **Función:** Carga clientes predefinidos dentro de la colección (por ejemplo, datos de prueba o iniciales).  
