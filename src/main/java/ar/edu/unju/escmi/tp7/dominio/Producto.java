@@ -1,13 +1,10 @@
-package ar.edu.unju.escmi.tp7.dominio;
+package modelo;
 
 public class Producto {
     private long codigo;
     private String descripcion;
     private double precioUnitario;
     private String origenFabricacion;
-
-    public Producto() {
-    }
 
     public Producto(long codigo, String descripcion, double precioUnitario, String origenFabricacion) {
         this.codigo = codigo;
@@ -20,31 +17,17 @@ public class Producto {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public double getPrecioUnitario() {
         return precioUnitario;
     }
 
-    public void setPrecioUnitario(double precioUnitario) {
-        this.precioUnitario = precioUnitario;
-    }
-
-    public String getOrigenFabricacion() {
-        return origenFabricacion;
-    }
-
-    public void setOrigenFabricacion(String origenFabricacion) {
-        this.origenFabricacion = origenFabricacion;
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "codigo=" + codigo +
+                ", descripcion='" + descripcion + '\'' +
+                ", precioUnitario=" + precioUnitario +
+                ", origenFabricacion='" + origenFabricacion + '\'' +
+                '}';
     }
 }

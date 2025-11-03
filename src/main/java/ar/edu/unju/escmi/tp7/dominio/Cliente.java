@@ -1,4 +1,4 @@
-package ar.edu.unju.escmi.tp7.dominio;
+package modelo;
 
 public class Cliente {
     private long dni;
@@ -7,53 +7,29 @@ public class Cliente {
     private String telefono;
     private TarjetaCredito tarjeta;
 
-    public Cliente() {
-    }
-
-    public Cliente(long dni, String nombre, String direccion, String telefono) {
+    public Cliente(long dni, String nombre, String direccion, String telefono, TarjetaCredito tarjeta) {
         this.dni = dni;
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
+        this.tarjeta = tarjeta;
     }
 
     public long getDni() {
         return dni;
     }
 
-    public void setDni(long dni) {
-        this.dni = dni;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
     public TarjetaCredito getTarjeta() {
         return tarjeta;
     }
 
-    public void setTarjeta(TarjetaCredito tarjeta) {
-        this.tarjeta = tarjeta;
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "dni=" + dni +
+                ", nombre='" + nombre + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", telefono='" + telefono + '\'' +
+                '}';
     }
 }
