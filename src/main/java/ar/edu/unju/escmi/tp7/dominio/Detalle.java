@@ -11,16 +11,16 @@ public class Detalle {
         this.importe = calcularImporte();
     }
 
+    public int getCantidad() { return cantidad; }
+    public double getImporte() { return importe; }
+    public Producto getProducto() { return producto; }
+
     public double calcularImporte() {
         return producto.getPrecioUnitario() * cantidad;
     }
 
     @Override
     public String toString() {
-        return "Detalle{" +
-                "cantidad=" + cantidad +
-                ", importe=" + importe +
-                ", producto=" + producto +
-                '}';
+        return "Detalle{producto=" + producto.getCodigo() + ", cantidad=" + cantidad + ", importe=" + importe + "}";
     }
 }

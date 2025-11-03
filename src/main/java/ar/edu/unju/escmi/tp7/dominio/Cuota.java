@@ -8,24 +8,24 @@ public class Cuota {
     private LocalDate fechaGeneracion;
     private LocalDate fechaVencimiento;
 
-    public Cuota(int nroCuota, double monto, LocalDate fechaGeneracion, LocalDate fechaVencimiento) {
-        this.nroCuota = nroCuota;
+    // 🔹 Constructor completo
+    public Cuota(double monto, int nroCuota, LocalDate fechaGeneracion, LocalDate fechaVencimiento) {
         this.monto = monto;
+        this.nroCuota = nroCuota;
         this.fechaGeneracion = fechaGeneracion;
         this.fechaVencimiento = fechaVencimiento;
     }
 
-    public double getMonto() {
-        return monto;
-    }
+    // 🔹 Getters y setters (opcionales)
+    public double getMonto() { return monto; }
+    public int getNroCuota() { return nroCuota; }
+    public LocalDate getFechaGeneracion() { return fechaGeneracion; }
+    public LocalDate getFechaVencimiento() { return fechaVencimiento; }
 
     @Override
     public String toString() {
-        return "Cuota{" +
-                "nroCuota=" + nroCuota +
-                ", monto=" + monto +
-                ", fechaGeneracion=" + fechaGeneracion +
-                ", fechaVencimiento=" + fechaVencimiento +
-                '}';
+        return "Cuota [nroCuota=" + nroCuota + ", monto=" + monto +
+               ", fechaGeneracion=" + fechaGeneracion +
+               ", fechaVencimiento=" + fechaVencimiento + "]";
     }
 }

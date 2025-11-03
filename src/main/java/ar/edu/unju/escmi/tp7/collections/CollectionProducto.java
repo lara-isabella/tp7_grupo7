@@ -2,16 +2,15 @@ package ar.edu.unju.escmi.tp7.collections;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import ar.edu.unju.escmi.tp7.dominio.Producto;
 
 public class CollectionProducto {
-	 public static List<Producto> productos = new ArrayList<Producto>();
 
-	 public static void precargarProductos() {
-	        if (productos.isEmpty()) {
-	            productos = new ArrayList<Producto>();
-	            productos.add(new Producto(1111, "Aire Acondicionado Split On/Off 2750W FC Hisense", 220000, "Argentina"));
+    public static List<Producto> productos = new ArrayList<>();
+
+    public static void precargarProductos() {
+        if (productos.isEmpty()) {
+       productos.add(new Producto(1111, "Aire Acondicionado Split On/Off 2750W FC Hisense", 220000, "Argentina"));
 	            productos.add(new Producto(1112, "Aire Acondicionado Split On/Off 3400W FC Hisense", 180000, "China"));
 	            productos.add(new Producto(1113, "Aire Acondicionado Split On/Off 3400W FC Philco", 180000, "Argentina"));
 	            productos.add(new Producto(1114, "Aire Acondicionado AA Inverter 3000 FC BGH", 250000, "Argentina"));
@@ -35,49 +34,38 @@ public class CollectionProducto {
 	        }
 	    }
 
-	   public static void agregarProducto(Producto producto) {
-	        
-	    	try {
-	    		if (productos.isEmpty()) {
-	                productos.add(producto);
-	            } else {
-	                long controlCodigo = producto.getCodigo();
-	                boolean band = true;
 
-	                for (Producto pro : productos) {
-	                    if (band) {
-	                        if (pro.getCodigo() == controlCodigo) {
-	                            System.out.println("\nYa existe un producto con ese código");
-	                            band = false;
-	                        }
-	                    }
-	                }
-	                if (band) {
-	                    productos.add(producto);
-	                }
+    public static void agregarProducto(Producto producto) {
+        try {
+            productos.add(producto);
+            System.out.println("Producto agregado.");
+        } catch (Exception e) {
+            System.out.println("\nNO SE PUEDE GUARDAR EL PRODUCTO");
+        }
+    }
 
-	            }
-			} catch (Exception e) {
-				System.out.println("\nNO SE PUEDE GUARDAR EL PRODUCTO");
-			}
-	    	
-	    }
+    public static Producto buscarProducto(long codigo) {
+        Producto productoEncontrado = null;
+        try {
+            for (Producto pro : productos) {
+                if (pro.getCodigo() == codigo) {
+                    productoEncontrado = pro;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return productoEncontrado;
+    }
 
-	    public static Producto buscarProducto(long codigo) {
-	        Producto productoEncontrado = null;
-	        
-	        try {
-	        	if (!productos.isEmpty()) {
-	                for (Producto pro : productos) {
-	                    if (pro.getCodigo() == codigo) {
-	                        productoEncontrado = pro;
-	                    }
-	                }
-	            }
-			} catch (Exception e) {
-				return null;
-			}
-	        
-	        return productoEncontrado;
-	    }
+    public static void mostrarProductos() {
+        if (productos.isEmpty()) {
+            System.out.println("No hay productos.");
+        } else {
+            for (Producto p : productos) {
+                System.out.println(p);
+            }
+        }
+    }
 }
