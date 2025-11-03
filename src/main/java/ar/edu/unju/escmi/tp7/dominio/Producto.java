@@ -1,5 +1,4 @@
-package modelo;
-
+package ar.edu.unju.escmi.tp7.dominio;
 public class Producto {
     private long codigo;
     private String descripcion;
