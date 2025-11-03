@@ -1,39 +1,58 @@
 package ar.edu.unju.escmi.tp7.dominio;
 
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Credito {
     private Cliente cliente;
     private Producto producto;
+    private TarjetaCredito tarjetaCredito;
+    private List<Cuota> cuotas = new ArrayList<>();
 
-    public Credito() {
-    }
-
-    public Credito(Cliente cliente, Producto producto) {
+    public Credito(Cliente cliente, Producto producto, TarjetaCredito tarjetaCredito) {
         this.cliente = cliente;
         this.producto = producto;
+        this.tarjetaCredito = tarjetaCredito;
+    }
+
+    public boolean validarMonto() {
+        return tarjetaCredito.tieneSaldoDisponible(producto.getPrecioUnitario());
+    }
+
+    public boolean validarTarjeta() {
+        return tarjetaCredito != null;
+    }
+
+    public void generarCuotas() {
+        double montoTotal = producto.getPrecioUnitario();
+        double montoCuota = montoTotal / 30;
+        LocalDate fecha = LocalDate.now();
+
+        for (int i = 1; i <= 30; i++) {
+            cuotas.add(new Cuota(i, montoCuota, fecha, fecha.plusMonths(i)));
+        }
+    }
+
+    public void mostrarCredito() {
+        System.out.println("Crédito del cliente: " + cliente);
+        for (Cuota c : cuotas) {
+            System.out.println(c);
+        }
     }
 
     public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    public boolean validarMonto() {
-        double limite = producto.getDescripcion().equalsIgnoreCase("Celular") ? 800000 : 1500000;
-        return producto.getPrecioUnitario() <= limite;
-    }
-
-    public boolean validarTarjeta() {
-        return cliente.getTarjeta().getLimiteCompra() >= producto.getPrecioUnitario();
+    @Override
+    public String toString() {
+        return "Credito{" +
+                "cliente=" + cliente +
+                ", producto=" + producto +
+                ", tarjetaCredito=" + tarjetaCredito +
+                ", cuotas=" + cuotas.size() +
+                '}';
     }
 }
