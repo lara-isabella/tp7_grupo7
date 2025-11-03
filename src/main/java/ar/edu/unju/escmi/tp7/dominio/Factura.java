@@ -16,8 +16,13 @@ public class Factura {
         this.cliente = cliente;
     }
 
-    public void agregarDetalle(Detalle detalle) {
-        detalles.add(detalle);
+    public LocalDate getFecha() { return fecha; }
+    public long getNroFactura() { return nroFactura; }
+    public Cliente getCliente() { return cliente; }
+    public List<Detalle> getDetalles() { return detalles; }
+
+    public void agregarDetalle(Detalle d) {
+        detalles.add(d);
     }
 
     public double calcularTotal() {
@@ -30,11 +35,6 @@ public class Factura {
 
     @Override
     public String toString() {
-        return "Factura{" +
-                "fecha=" + fecha +
-                ", nroFactura=" + nroFactura +
-                ", cliente=" + cliente +
-                ", total=" + calcularTotal() +
-                '}';
+        return "Factura{nro=" + nroFactura + ", fecha=" + fecha + ", cliente=" + cliente.getDni() + ", total=" + calcularTotal() + "}";
     }
 }

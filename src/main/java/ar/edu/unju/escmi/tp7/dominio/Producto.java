@@ -1,4 +1,5 @@
 package ar.edu.unju.escmi.tp7.dominio;
+
 public class Producto {
     private long codigo;
     private String descripcion;
@@ -12,21 +13,13 @@ public class Producto {
         this.origenFabricacion = origenFabricacion;
     }
 
-    public long getCodigo() {
-        return codigo;
-    }
-
-    public double getPrecioUnitario() {
-        return precioUnitario;
-    }
+    public long getCodigo() { return codigo; }
+    public String getDescripcion() { return descripcion; }
+    public double getPrecioUnitario() { return precioUnitario; }
+    public String getOrigenFabricacion() { return origenFabricacion; }
 
     @Override
     public String toString() {
-        return "Producto{" +
-                "codigo=" + codigo +
-                ", descripcion='" + descripcion + '\'' +
-                ", precioUnitario=" + precioUnitario +
-                ", origenFabricacion='" + origenFabricacion + '\'' +
-                '}';
+        return "Producto{codigo=" + codigo + ", descripcion='" + descripcion + "', precio=" + precioUnitario + "}";
     }
 }
