@@ -1,15 +1,2 @@
-# 💻 Programación Orientada a Objetos  
-### 🧠 Trabajo Práctico Nº7
-
-Este repositorio contiene el desarrollo del TP7 para la materia **Programación Orientada a Objetos**
-
-
-## 👥 Integrantes del Grupo 7
-
-| Nombre             | GitHub                                      |
-|--------------------|---------------------------------------------|
-| Lara Colazo        | [@lara-isabella](https://github.com/lara-isabella) |
-| Luisana Pereira    | [@lulipereira](https://github.com/lulipereira)     |
-| Yamila Quipildor   | [@yamqp](https://github.com/yamqp)                 |
-| Lautaro Cari       | [@LauchaS2](https://github.com/LauchaS2)          |
-| Tomás Obeide       | [@TomiObeide](https://github.com/TomiObeide)      |
+# tp7_grupo7
+Desarrollo del Trabajo Practico n7 para la materia Programacion Orientada a Objetos
