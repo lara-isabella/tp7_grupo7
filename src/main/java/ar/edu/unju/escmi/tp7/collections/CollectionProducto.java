@@ -35,7 +35,7 @@ public class CollectionProducto {
 	        }
 	    }
 
-	   public static void agregarProducto(Producto producto) {
+	   public static void guardarProducto(Producto producto) {
 	        
 	    	try {
 	    		if (productos.isEmpty()) {
@@ -80,4 +80,52 @@ public class CollectionProducto {
 	        
 	        return productoEncontrado;
 	    }
+
+		public static List<Producto> obtenerProductosA30() {
+			List<Producto> productosAhora30 = new ArrayList<>();
+			
+			for (Producto p : productos) {
+				if (p.getOrigenFabricacion().equals("Argentina")) {
+					String descripcion = p.getDescripcion().toLowerCase();
+					boolean califica = false;
+
+					// Verificar celulares (límite $800000)
+					if (descripcion.contains("celular") && p.getPrecioUnitario() <= 800000) {
+						califica = true;
+					}
+					// Verificar electrodomésticos (límite $1500000)
+					else if (p.getPrecioUnitario() <= 1500000 && 
+							(descripcion.contains("aire") || 
+							descripcion.contains("heladera") || 
+							descripcion.contains("lavarropas") || 
+							descripcion.contains("tv") || 
+							descripcion.contains("televisor"))) {
+						califica = true;
+					}
+
+					if (califica) {
+						productosAhora30.add(p);
+					}
+				}
+			}
+			
+			return productosAhora30;
+		}
+
+		public static boolean buscarProductoA30 (long codigo) {
+			List<Producto> productosAhora30 = obtenerProductosA30();
+			
+			for (Producto p : productosAhora30) {
+				if (p.getCodigo() == codigo) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+
+		public static void mostrarProductosA30() {
+			System.out.println("\n====== Lista de productos disponibles - Ahora 30 ======");
+			CollectionStock.mostrarStockAhora30(obtenerProductosA30());
+		}
 }
