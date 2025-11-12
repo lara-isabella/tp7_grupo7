@@ -17,21 +17,6 @@ public class CollectionFactura {
         }
     }
 
-    public static Factura buscarFactura(long numero) {
-        Factura facturaEncontrada = null;
-        try {
-            for (Factura f : facturas) {
-                if (f.getNroFactura() == numero) {
-                    facturaEncontrada = f;
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return facturaEncontrada;
-    }
-
     public static void mostrarFacturasCliente(long dni) {
         boolean hay = false;
         for (Factura f : facturas) {

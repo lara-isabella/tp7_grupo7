@@ -1,4 +1,4 @@
-package ar.edu.unju.escmi.poo.tp7.tests;
+package ar.edu.unju.escmi.tp7.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,60 +25,55 @@ class CreditoTest {
 
     @BeforeEach
     void setUp() {
-        //Cliente
         cliente = new Cliente(12345678L, "Cliente Test", "Calle Test", "123456789");
 
-        //Tarjeta con saldo suficiente para probar límites
         tarjeta = new TarjetaCredito(11111L, LocalDate.of(2030, 1, 1), cliente, 1600000);
 
-		//se crean 2 productos y detalles 
-        Producto p1 = new Producto(1L, "Lavarropas", 500000, "Argentina");
-        Producto p2 = new Producto(2L, "Microondas", 400000, "Argentina");
+        Producto p1 = new Producto(1L, "TV 55 pulgadas", 500000, "Argentina");
+        Producto p2 = new Producto(2L, "Heladera No Frost", 400000, "Argentina");
 
         detalles = new ArrayList<>();
-        //marcar los detalles como NO-Ahora30 para usar calcularTotal()
-        detalles.add(new Detalle(1, 500000, p1, false));
-        detalles.add(new Detalle(1, 400000, p2, false));
+        
+        detalles.add(new Detalle(1, 500000, p1, true));
+        detalles.add(new Detalle(1, 400000, p2, true));
 
         factura = new Factura(LocalDate.now(), cliente);
         factura.setDetalles(detalles);
 
-        //crear crédito con monto igual al total de la factura
-        double monto = factura.calcularTotal();
+        double monto = factura.calcularTotalA30();
         credito = new Credito(tarjeta, factura, cliente, monto);
     }
 
     @Test
     void testMontoCreditoValido() {
-        //verificar que el monto del crédito no supere 1.500.000
-        double montoCredito = credito.getMontoCredito();
+        double montoCredito = credito.getTotalCredito();
+        
         assertEquals(true, montoCredito <= 1500000,
-            "El monto del crédito no debe superar $1.500.000");
+                "El monto del crédito no debe superar $1.500.000");
     }
 
     @Test
-    void testSumaImportesDetallesIgualTotalFactura() {
-        //calcular la suma de los importes de los detalles
-        double totalDetalles = 0;
+    void testSumaImportesDetallesA30IgualTotalFacturaA30() {
+        double sumaDetallesA30 = 0;
         for (Detalle detalle : detalles) {
-            totalDetalles += detalle.getImporte();
+            if (detalle.isEstadoA30()) { 
+                sumaDetallesA30 += detalle.getImporte();
+            }
         }
         
-        assertEquals(totalDetalles, factura.calcularTotal(),
-            "La suma de los importes de los detalles debe ser igual al total de la factura");
+        assertEquals(sumaDetallesA30, factura.calcularTotalA30(),
+                "La suma de los importes de los detalles A30 debe ser igual al total A30 de la factura");
+        assertEquals(0.0, factura.calcularTotal(),
+                "El total normal de la factura debe ser 0 si todo es A30");
     }
 
     @Test
-    void testMontoCompraNoSuperaLimiteYSaldoTarjeta() {
-        double totalCompra = factura.calcularTotal();
+    void testMontoCompraA30NoSuperaLimiteYSaldoTarjeta() {
+        double totalCompraA30 = factura.calcularTotalA30();
         
-        //Verificación total de compra < $1.500.000
-        assertEquals(true, totalCompra <= 1500000,
-            "El total de la compra no debe superar $1.500.000");
-            
-        //Verificación que el total no supere el saldo de la tarjeta
-        assertEquals(true, tarjeta.tieneSaldoSuficiente(totalCompra),
-            "El total de la compra no debe superar el saldo disponible en la tarjeta");
+        assertEquals(true, totalCompraA30 <= 1500000,
+                "El total de la compra A30 no debe superar $1.500.000");
+        assertEquals(true, tarjeta.tieneSaldoSuficiente(totalCompraA30),
+                "El total de la compra A30 no debe superar el saldo disponible en la tarjeta");
     }
-
 }
