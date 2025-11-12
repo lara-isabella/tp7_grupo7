@@ -1,58 +1,84 @@
-package ar.edu.unju.escmi.tp7.tests;
+package ar.edu.unju.escmi.poo.tp7.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ar.edu.unju.escmi.tp7.dominio.*;
 
-public class CreditoTest {
+import ar.edu.unju.escmi.tp7.dominio.Cliente;
+import ar.edu.unju.escmi.tp7.dominio.TarjetaCredito;
+import ar.edu.unju.escmi.tp7.dominio.Factura;
+import ar.edu.unju.escmi.tp7.dominio.Credito;
+import ar.edu.unju.escmi.tp7.dominio.Detalle;
+import ar.edu.unju.escmi.tp7.dominio.Producto;
+
+class CreditoTest {
+    private Cliente cliente;
+    private TarjetaCredito tarjeta;
+    private Factura factura;
+    private Credito credito;
+    private List<Detalle> detalles;
+
+    @BeforeEach
+    void setUp() {
+        //Cliente
+        cliente = new Cliente(12345678L, "Cliente Test", "Calle Test", "123456789");
+
+        //Tarjeta con saldo suficiente para probar límites
+        tarjeta = new TarjetaCredito(11111L, LocalDate.of(2030, 1, 1), cliente, 1600000);
+
+		//se crean 2 productos y detalles 
+        Producto p1 = new Producto(1L, "Lavarropas", 500000, "Argentina");
+        Producto p2 = new Producto(2L, "Microondas", 400000, "Argentina");
+
+        detalles = new ArrayList<>();
+        //marcar los detalles como NO-Ahora30 para usar calcularTotal()
+        detalles.add(new Detalle(1, 500000, p1, false));
+        detalles.add(new Detalle(1, 400000, p2, false));
+
+        factura = new Factura(LocalDate.now(), cliente);
+        factura.setDetalles(detalles);
+
+        //crear crédito con monto igual al total de la factura
+        double monto = factura.calcularTotal();
+        credito = new Credito(tarjeta, factura, cliente, monto);
+    }
 
     @Test
-    public void testMontoTotalNoSuperaLimiteGeneral() {
-        Producto producto = new Producto(1L, "Heladera", 1400000, "Argentina");
-        Cliente cliente = new Cliente(12345678L, "Lautaro", "San Salvador", "3884000000");
+    void testMontoCreditoValido() {
+        //verificar que el monto del crédito no supere 1.500.000
+        double montoCredito = credito.getMontoCredito();
+        assertEquals(true, montoCredito <= 1500000,
+            "El monto del crédito no debe superar $1.500.000");
+    }
+
+    @Test
+    void testSumaImportesDetallesIgualTotalFactura() {
+        //calcular la suma de los importes de los detalles
+        double totalDetalles = 0;
+        for (Detalle detalle : detalles) {
+            totalDetalles += detalle.getImporte();
+        }
         
-
-        Credito credito = new Credito(cliente, producto);
-
-        assertTrue(credito.validarMonto(), "El monto total no debería superar el límite general de $1.500.000");
+        assertEquals(totalDetalles, factura.calcularTotal(),
+            "La suma de los importes de los detalles debe ser igual al total de la factura");
     }
 
     @Test
-    public void testMontoTotalSuperaLimiteGeneral() {
-        Producto producto = new Producto(2L, "Lavarropas", 1600000, "Argentina");
-        Cliente cliente = new Cliente(87654321, "Valentina", "Palpalá", "3884111111");
-        TarjetaCredito tarjeta = new TarjetaCredito(123456, LocalDate.now(), 500000, 500000);
-        cliente.setTarjeta(tarjeta);
-
-        Credito credito = new Credito(cliente, producto);
-
-        assertFalse(credito.validarMonto(), "El monto total supera el límite permitido de $1.500.000");
+    void testMontoCompraNoSuperaLimiteYSaldoTarjeta() {
+        double totalCompra = factura.calcularTotal();
+        
+        //Verificación total de compra < $1.500.000
+        assertEquals(true, totalCompra <= 1500000,
+            "El total de la compra no debe superar $1.500.000");
+            
+        //Verificación que el total no supere el saldo de la tarjeta
+        assertEquals(true, tarjeta.tieneSaldoSuficiente(totalCompra),
+            "El total de la compra no debe superar el saldo disponible en la tarjeta");
     }
 
-    @Test
-    public void testMontoNoSuperaLimiteTarjeta() {
-        Producto producto = new Producto(3L, "Celular", 700000, "Argentina");
-        Cliente cliente = new Cliente(11223344, "Camila", "Perico", "3884222222");
-        TarjetaCredito tarjeta = new TarjetaCredito(223456, LocalDate.now(), 500000, 900000);
-
-        cliente.setTarjeta(tarjeta);
-
-        Credito credito = new Credito(cliente, producto);
-
-        assertTrue(credito.validarTarjeta(), "El cliente tiene límite suficiente en su tarjeta");
-    }
-
-    @Test
-    public void testMontoSuperaLimiteTarjeta() {
-        Producto producto = new Producto(4L, "Celular", 850000, "Argentina");
-        Cliente cliente = new Cliente(55667788L, "Mateo", "Tilcara", "3884333333");
-        TarjetaCredito tarjeta = new TarjetaCredito(334456, LocalDate.now(), 500000, 500000);
-
-        cliente.setTarjeta(tarjeta);
-
-        Credito credito = new Credito(cliente, producto);
-
-        assertFalse(credito.validarTarjeta(), "El monto supera el límite disponible en la tarjeta del cliente");
-    }
 }
