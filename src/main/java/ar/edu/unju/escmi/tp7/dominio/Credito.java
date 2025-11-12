@@ -6,107 +6,90 @@ import java.util.List;
 
 public class Credito {
 
-    private Cliente cliente;
-    private Producto producto;
-    private TarjetaCredito tarjetaCredito;
-    private double monto;
-    private List<Cuota> cuotas;
+	private TarjetaCredito tarjetaCredito;
+	private Factura factura;
+	private List<Cuota> cuotas = new ArrayList<Cuota>();
+	private Cliente cliente;
+	private double totalCredito;
 
-    // ===== CONSTRUCTORES =====
-    public Credito(Cliente cliente, Producto producto, TarjetaCredito tarjetaCredito, double monto) {
-        this.cliente = cliente;
-        this.producto = producto;
-        this.tarjetaCredito = tarjetaCredito;
-        this.monto = monto;
-        this.cuotas = new ArrayList<>();
-    }
+	public Credito() {
+	}
 
-    // Constructor sin monto (permite crear y asignar después)
-    public Credito(Cliente cliente, Producto producto) {
-        this.cliente = cliente;
-        this.producto = producto;
-        this.cuotas = new ArrayList<>();
-        this.tarjetaCredito = (cliente != null) ? cliente.getTarjeta() : null;
-    }
+	public Credito(TarjetaCredito tarjetaCredito, Factura factura, Cliente cliente, double totalCredito) {
+		this.tarjetaCredito = tarjetaCredito;
+		this.factura = factura;
+		this.cliente = cliente;
+		this.totalCredito = totalCredito;
+	}
 
-    // Constructor adicional para compatibilidad con tu Main
-    public Credito(Cliente cliente, Producto producto, TarjetaCredito tarjetaCredito) {
-        this.cliente = cliente;
-        this.producto = producto;
-        this.tarjetaCredito = tarjetaCredito;
-        this.cuotas = new ArrayList<>();
-    }
+	public Credito(List<Cuota> cuotas) {
+		this.cuotas = cuotas;
+	}
 
-    // ===== MÉTODOS =====
-    public boolean validarMonto() {
-        // Validación del monto total contra el límite general de la tienda
-        double limiteGeneral = 1500000.0;
-        return producto != null && producto.getPrecioUnitario() <= limiteGeneral;
-    }
+	public TarjetaCredito getTarjetaCredito() {
+		return tarjetaCredito;
+	}
 
-    public boolean validarTarjeta() {
-        // Verifica que exista tarjeta y que tenga saldo suficiente para cubrir el precio del producto
-        if (tarjetaCredito == null) return false;
-        return tarjetaCredito.tieneSaldoDisponible(producto.getPrecioUnitario());
-    }
+	public void setTarjetaCredito(TarjetaCredito tarjetaCredito) {
+		this.tarjetaCredito = tarjetaCredito;
+	}
 
-    public void generarCuotas(int cantidadCuotas) {
-        double montoCuota = monto / cantidadCuotas;
-        LocalDate fecha = LocalDate.now();
+	public Factura getFactura() {
+		return factura;
+	}
 
-        for (int i = 1; i <= cantidadCuotas; i++) {
-            LocalDate fechaVencimiento = fecha.plusMonths(i);
-            cuotas.add(new Cuota(montoCuota, i, fecha, fechaVencimiento));
-        }
-    }
+	public void setFactura(Factura factura) {
+		this.factura = factura;
+	}
 
-    // Sobrecarga para el Main (usa 12 por defecto)
-    public void generarCuotas() {
-        this.monto = producto.getPrecioUnitario();
-        generarCuotas(12);
-    }
+	public List<Cuota> getCuotas() {
+		return cuotas;
+	}
 
-    public void mostrarCredito() {
-        System.out.println("=== Crédito generado ===");
-        System.out.println("Cliente: " + cliente.getNombre());
-        System.out.println("Producto: " + producto.getDescripcion());
-        System.out.println("Monto total: $" + monto);
-        System.out.println("Tarjeta: " + tarjetaCredito.getNumero());
-        System.out.println("Cantidad de cuotas: " + cuotas.size());
-    }
+	public void setCuotas(List<Cuota> cuotas) {
+		this.cuotas = cuotas;
+	}
 
-    // ===== GETTERS Y SETTERS =====
-    public Cliente getCliente() {
-        return cliente;
-    }
+	public Cliente getCliente() {
+		return cliente;
+	}
 
-    public Producto getProducto() {
-        return producto;
-    }
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 
-    public TarjetaCredito getTarjetaCredito() {
-        return tarjetaCredito;
-    }
+	public double getTotalCredito() {
+		return totalCredito;
+	}
 
-    public void setTarjetaCredito(TarjetaCredito tarjetaCredito) {
-        this.tarjetaCredito = tarjetaCredito;
-    }
+	public void setTotalCredito(double totalCredito) {
+		this.totalCredito = totalCredito;
+	}
 
-    public double getMonto() {
-        return monto;
-    }
+	public void generarCuotas() {
+		double totalCuota = this.factura.calcularTotalA30() / 30;
+		int nroCuota = 0;
+		LocalDate currentDate = LocalDate.now();
+		LocalDate auxDate = LocalDate.now();
 
-    public List<Cuota> getCuotas() {
-        return cuotas;
-    }
+		for (int i = 0; i < 30; i++) {
+			nroCuota++;
+			Cuota cuota = new Cuota();
+			cuota.setTotal(totalCuota);
+			cuota.setNumCuota(nroCuota);
+			cuota.setFechaGeneracion(currentDate);
+			auxDate = auxDate.plusMonths(1);
+			cuota.setFechaVencimiento(auxDate);
+			cuotas.add(cuota);
+		}
 
-    @Override
-    public String toString() {
-        return "Credito{" +
-                "cliente=" + cliente.getNombre() +
-                ", producto=" + producto.getDescripcion() +
-                ", monto=" + monto +
-                ", tarjeta=" + (tarjetaCredito != null ? tarjetaCredito.getNumero() : "sin tarjeta") +
-                '}';
-    }
+	}
+
+	public void mostrarCredito() {
+		System.out.println("***Tarjeta De Credito***" + tarjetaCredito + "\n" + factura + "\n\nCUOTAS:");
+		for (Cuota cuota : cuotas) {
+			System.out.println(cuota);
+		}
+	}
+
 }

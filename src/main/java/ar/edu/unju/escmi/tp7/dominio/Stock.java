@@ -1,11 +1,22 @@
 package ar.edu.unju.escmi.tp7.dominio;
 
 public class Stock {
-    private Producto producto;
-    private int cantidad;
+	private Integer cantidad;
+	private Producto producto;
 
-    public Stock(Producto producto, int cantidad) {
+	public Stock() {
+    }
+
+    public Stock(Integer cantidad, Producto producto) {
+        this.cantidad = cantidad;
         this.producto = producto;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -13,22 +24,24 @@ public class Stock {
         return producto;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
-    public boolean validarStockDisponible(int cantidadSolicitada) {
-        return cantidadSolicitada <= cantidad;
-    }
 
-    public void actualizarStock(int cantidadVendida) {
-        if (cantidadVendida <= cantidad) {
-            cantidad -= cantidadVendida;
+    public boolean validarStockDisponible (int cantidadSolicitada) {
+        if (this.cantidad < cantidadSolicitada) {
+            return false;
         }
+        return true;
     }
 
-    @Override
-    public String toString() {
-        return "Producto: " + producto.getDescripcion() + " | Cantidad disponible: " + cantidad;
+    public void actualizarStock (int cantidadVendida) {
+        if (cantidadVendida > this.cantidad) {
+            System.out.println("No hay stock suficiente");
+        }
+        else {
+            this.cantidad = this.cantidad - cantidadVendida;
+        }
     }
 }

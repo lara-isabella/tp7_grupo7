@@ -3,76 +3,73 @@ package ar.edu.unju.escmi.tp7.dominio;
 import java.time.LocalDate;
 
 public class TarjetaCredito {
+     private long numero;
+     private double saldoDisp;
+	 private LocalDate fechaCaducacion;
+     private double limiteCompra;
+	 private Cliente cliente;
+     private static final double LIMITE_TARJETAS = 2000000.0;
 
-    private long numero;
-    private LocalDate fechaCaducacion;
-    private double limiteCompra;
-    private double saldoDisponible;
 
-    // ===== CONSTRUCTORES =====
-    public TarjetaCredito(long numero, LocalDate fechaCaducacion, double limiteCompra, double saldoDisponible) {
-        this.numero = numero;
-        this.fechaCaducacion = fechaCaducacion;
-        this.limiteCompra = limiteCompra;
-        this.saldoDisponible = saldoDisponible;
-    }
+	 public TarjetaCredito() {
+     }
 
-    // Constructor alternativo si no se especifica saldo
-    public TarjetaCredito(long numero, LocalDate fechaCaducacion, double limiteCompra) {
-        this.numero = numero;
-        this.fechaCaducacion = fechaCaducacion;
-        this.limiteCompra = limiteCompra;
-        this.saldoDisponible = limiteCompra;
-    }
+     
 
-    // ===== MÉTODOS =====
-    public boolean tieneSaldoDisponible(double monto) {
-        return saldoDisponible >= monto;
-    }
+     public TarjetaCredito(long numero, LocalDate fechaCaducacion, Cliente cliente, double limiteCompra) {
+		this.numero = numero;
+		this.fechaCaducacion = fechaCaducacion;
+		this.cliente = cliente;
+		this.limiteCompra = LIMITE_TARJETAS;
+		this.saldoDisp = limiteCompra;
+	}
 
-    public void descontarCompra(double monto) {
-        if (tieneSaldoDisponible(monto)) {
-            saldoDisponible -= monto;
-        } else {
-            System.out.println("Saldo insuficiente en la tarjeta");
-        }
-    }
 
-    public void mostrarTarjeta() {
-        System.out.println("N° Tarjeta: " + numero +
-                " | Caduca: " + fechaCaducacion +
-                " | Límite: $" + limiteCompra +
-                " | Disponible: $" + saldoDisponible);
-    }
 
-    // ===== GETTERS Y SETTERS =====
-    public long getNumero() {
+	public long getNumero() {
         return numero;
+    }
+
+    public void setNumero(long numero) {
+        this.numero = numero;
     }
 
     public LocalDate getFechaCaducacion() {
         return fechaCaducacion;
     }
 
-    public double getLimiteCompra() {
-        return limiteCompra;
+    public void setFechaCaducacion(LocalDate fechaCaducacion) {
+	       this.fechaCaducacion = fechaCaducacion;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public void setLimiteCompra(double limiteCompra) {
+		this.limiteCompra = limiteCompra;
+	}
+
+	public boolean tieneSaldoSuficiente(double monto) {
+        return saldoDisp >= monto;
     }
 
-    public double getSaldoDisponible() {
-        return saldoDisponible;
+    public void descontarTotal(double total) {
+        if (tieneSaldoSuficiente(total)) {
+            saldoDisp -= total;
+        } else {
+            System.out.println("Saldo insuficiente en la tarjeta.");
+        }
     }
+	
+	@Override
+	public String toString() {
+		return "\nNumero: " + numero + "\nFecha De Caducacion: " + fechaCaducacion + "\nNombre Titular: "
+				+ cliente.getNombre() + "\nLimite De Compra Actual:" + limiteCompra + "\nSaldo Disponible: " + saldoDisp;
+	}
 
-    public void setSaldoDisponible(double saldoDisponible) {
-        this.saldoDisponible = saldoDisponible;
-    }
-
-    @Override
-    public String toString() {
-        return "TarjetaCredito{" +
-                "numero=" + numero +
-                ", fechaCaducacion=" + fechaCaducacion +
-                ", limiteCompra=" + limiteCompra +
-                ", saldoDisponible=" + saldoDisponible +
-                '}';
-    }
 }
