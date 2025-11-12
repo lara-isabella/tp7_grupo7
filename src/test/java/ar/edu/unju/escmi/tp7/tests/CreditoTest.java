@@ -59,13 +59,12 @@ class CreditoTest {
     @Test
     void testSumaImportesDetallesIgualTotalFactura() {
         //calcular la suma de los importes de los detalles
-        double sumaDetalles = 0;
+        double totalDetalles = 0;
         for (Detalle detalle : detalles) {
-            sumaDetalles += detalle.getImporte();
+            totalDetalles += detalle.getImporte();
         }
         
-        //verificar que la suma de los detalles sea igual al total de la factura
-        assertEquals(sumaDetalles, factura.calcularTotal(),
+        assertEquals(totalDetalles, factura.calcularTotal(),
             "La suma de los importes de los detalles debe ser igual al total de la factura");
     }
 
